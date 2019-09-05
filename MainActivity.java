@@ -249,27 +249,29 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////////////////////////////////////////////////////////////////////////Using OpenCV
 
     public void invert_color(View view){
-        if(is_inverted){
-            Mat img_mat = new Mat();
-            Utils.bitmapToMat(return_img, img_mat);
+        try {
+            if (is_inverted) {
+                Mat img_mat = new Mat();
+                Utils.bitmapToMat(return_img, img_mat);
 
-            Imgproc.cvtColor(img_mat, img_mat, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.threshold(img_mat, img_mat, 127, 255, THRESH_BINARY);
-            Utils.matToBitmap(img_mat, return_img);
+                Imgproc.cvtColor(img_mat, img_mat, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.threshold(img_mat, img_mat, 127, 255, THRESH_BINARY);
+                Utils.matToBitmap(img_mat, return_img);
 
-            img_view.setImageBitmap(return_img);
-        }else if(!is_inverted){
+                img_view.setImageBitmap(return_img);
+            } else if (!is_inverted) {
 
-            Mat img_mat = new Mat();
-            Utils.bitmapToMat(return_img, img_mat);
+                Mat img_mat = new Mat();
+                Utils.bitmapToMat(return_img, img_mat);
 
-            Imgproc.cvtColor(img_mat, img_mat, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.threshold(img_mat, img_mat, 127, 255, THRESH_BINARY_INV);
-            Utils.matToBitmap(img_mat, return_img);
+                Imgproc.cvtColor(img_mat, img_mat, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.threshold(img_mat, img_mat, 127, 255, THRESH_BINARY_INV);
+                Utils.matToBitmap(img_mat, return_img);
 
-            img_view.setImageBitmap(return_img);
+                img_view.setImageBitmap(return_img);
 
-        }else{
+            }
+        }catch(Exception e){
             Log.w("myApp", "Choose image first");
         }
     }
