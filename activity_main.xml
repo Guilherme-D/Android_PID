@@ -8,47 +8,226 @@
     tools:context="com.example.pidv2.MainActivity"
     android:layout_weight="1"
     >
+        <!-- Imagem correção -->
 
-    <ImageView
-        android:id="@+id/img_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-
-        android:src="@drawable/us"
-
+        android:layout_height="420dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent">
 
-        tools:srcCompat="?attr/actionModeShareDrawable"
-        android:onClick="invert_color"/>
+        <ImageView
+            android:id="@+id/img_view_correcao"
+            android:layout_width="match_parent"
+            android:layout_height="418dp"
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="155dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="captureFromCamera"
-        android:text="Camera"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.942"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:src="@drawable/us"
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="148dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="open_from_gallery"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.32"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="?attr/actionModeShareDrawable" />
+    </LinearLayout>
 
-        android:text="Abrir"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent" />
+        <!-- Prova -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="127dp"
+            android:layout_height="101dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <!-- Prova -->
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="124dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:onClick="captureFromCamera_Prova"
+                android:text="Camera"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="124dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+
+                android:onClick="open_from_gallery_prova"
+                android:text="Galeria"
+                app:layout_constraintBottom_toTopOf="@+id/button2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/gabarito"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:gravity="center"
+                android:text="Prova"
+                app:layout_constraintBottom_toTopOf="@+id/button1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- GABARITO -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="124dp"
+            android:layout_height="101dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="124dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:onClick="captureFromCamera_Gabarito"
+                android:text="Camera"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/Prova"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:gravity="center"
+                android:text="Gabarito"
+                app:layout_constraintBottom_toTopOf="@+id/button3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="124dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+
+                android:onClick="open_from_gallery_Gabarito"
+                android:text="Galeria"
+                app:layout_constraintBottom_toTopOf="@+id/button4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Corrigir -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="103dp"
+            android:layout_height="96dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout">
+
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="74dp"
+                android:onClick="corrigir"
+                android:text="Corrigir"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.466"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- prova e gabarito -->
+        <LinearLayout
+            android:onClick="invert_color"
+            android:id="@+id/linearLayout"
+            android:layout_width="357dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="8dp"
+            android:columnCount="3"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/img_view_prova"
+            android:layout_width="0dp"
+
+            android:layout_height="match_parent"
+            android:layout_row="0"
+
+            android:layout_column="0"
+            android:layout_weight=".33"
+            android:onClick="invert_color"
+            android:src="@drawable/us"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.491"
+            tools:srcCompat="?attr/actionModeShareDrawable" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".33"/>
+
+        <ImageView
+            android:id="@+id/img_view_gabarito"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_row="0"
+
+            android:layout_column="2"
+
+            android:layout_weight=".33"
+
+            android:onClick="invert_color"
+            android:src="@drawable/us"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.489"
+            tools:srcCompat="?attr/actionModeShareDrawable" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

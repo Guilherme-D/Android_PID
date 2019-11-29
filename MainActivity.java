@@ -1,10 +1,5 @@
 package com.example.pidv2;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,24 +8,27 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.pid.BuildConfig;
 import com.example.pid.R;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -42,14 +40,18 @@ import java.util.Date;
 
 import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
 import static org.opencv.imgproc.Imgproc.THRESH_BINARY_INV;
-import static org.opencv.imgproc.Imgproc.threshold;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST_CODE = 1;
     private static final int CAMERA_REQUEST_CODE = 2;
-    private ImageView img_view;
-
+    private ImageView img_view_prova;
+    private ImageView img_view_gabaritto;
+    private ImageView img_view_correcao;
+    private Bitmap gabarito;
+    private Bitmap prova;
+    private Bitmap correcao;
+    private int prova_ou_galeria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode,int resultCode,Intent data){
-        img_view = findViewById(R.id.img_view);
+        img_view_gabaritto = findViewById(R.id.img_view_gabarito);
+        img_view_prova = findViewById(R.id.img_view_prova);
+        img_view_correcao = findViewById(R.id.img_view_correcao);
         // Result code is RESULT_OK only if the user selects an Image
        /* if (resultCode == Activity.RESULT_OK)
             switch (requestCode){
@@ -98,7 +102,16 @@ public class MainActivity extends AppCompatActivity {
 
                         Bitmap to_binary_img = toBinary(putImage);
 
-                        img_view.setImageBitmap(to_binary_img);
+
+
+                        if(prova_ou_galeria == 0){
+                            this.gabarito = to_binary_img;
+                            img_view_gabaritto.setImageBitmap(to_binary_img);
+
+                        }else if(prova_ou_galeria == 1){
+                            this.prova = to_binary_img;
+                            img_view_prova.setImageBitmap(to_binary_img);
+                        }
 
                         break;
                     case GALLERY_REQUEST_CODE:
@@ -110,7 +123,15 @@ public class MainActivity extends AppCompatActivity {
 
                         Bitmap to_binary = toBinary(putImagecamera);
 
-                        img_view.setImageBitmap(to_binary);
+
+                        if(prova_ou_galeria == 0){
+                            this.gabarito = to_binary;
+                            img_view_gabaritto.setImageBitmap(to_binary);
+
+                        }else if(prova_ou_galeria == 1){
+                            this.prova = to_binary;
+                            img_view_prova.setImageBitmap(to_binary);
+                        }
 
                         break;
                 }
@@ -133,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
         String imageFileName = "JPEG_" + timeStamp + "_";
 
         //This is the directory in which the file will be created. This is the default location of Camera photos
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+//        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DCIM);
 
         File image = File.createTempFile(imageFileName,".jpg",storageDir );
 
@@ -141,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
         cameraFilePath = image.getAbsolutePath();
 
 
+
+        System.out.println("----------------------------------------------------------------------------------------------- "+cameraFilePath);
 
 
         return image;
@@ -250,34 +274,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void invert_color(View view){
         try {
-            if (is_inverted) {
-                Mat img_mat = new Mat();
-                Utils.bitmapToMat(return_img, img_mat);
-
-                Imgproc.cvtColor(img_mat, img_mat, Imgproc.COLOR_BGR2GRAY);
-                Imgproc.threshold(img_mat, img_mat, 127, 255, THRESH_BINARY);
-                Utils.matToBitmap(img_mat, return_img);
-
-                img_view.setImageBitmap(return_img);
-            } else if (!is_inverted) {
 
                 Mat img_mat = new Mat();
-                Utils.bitmapToMat(return_img, img_mat);
+                Utils.bitmapToMat(prova, img_mat);
 
                 Imgproc.cvtColor(img_mat, img_mat, Imgproc.COLOR_BGR2GRAY);
                 Imgproc.threshold(img_mat, img_mat, 127, 255, THRESH_BINARY_INV);
-                Utils.matToBitmap(img_mat, return_img);
+                Utils.matToBitmap(img_mat, prova);
 
-                img_view.setImageBitmap(return_img);
+                img_view_prova.setImageBitmap(prova);
 
-            }
+                Mat img_mat2 = new Mat();
+                Utils.bitmapToMat(gabarito, img_mat2);
+
+                Imgproc.cvtColor(img_mat2, img_mat2, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.threshold(img_mat2, img_mat2, 127, 255, THRESH_BINARY_INV);
+                Utils.matToBitmap(img_mat2, gabarito);
+                img_view_gabaritto.setImageBitmap(gabarito);
+
+
         }catch(Exception e){
             Log.w("myApp", "Choose image first");
         }
     }
 
 
-    boolean is_inverted = false;
 
     Bitmap return_img;
     public Bitmap toBinary(Bitmap img_binary){
@@ -293,8 +314,59 @@ public class MainActivity extends AppCompatActivity {
         Utils.matToBitmap(img_mat, return_img);
 
 
+
+
         return return_img;
 
     }
 
+    public void captureFromCamera_Prova(View view) {
+        this.prova_ou_galeria = 0;
+        captureFromCamera(view);
+    }
+
+    public void open_from_gallery_prova(View view) {
+        this.prova_ou_galeria = 0;
+        open_from_gallery(view);
+    }
+
+    public void captureFromCamera_Gabarito(View view) {
+        this.prova_ou_galeria = 1;
+        captureFromCamera(view);
+    }
+
+    public void open_from_gallery_Gabarito(View view) {
+        this.prova_ou_galeria = 1;
+        open_from_gallery(view);
+    }
+
+
+
+
+    public void  subtract_imgs(){
+        Mat img_mat_gabarito = new Mat();
+        Utils.bitmapToMat(gabarito, img_mat_gabarito);
+
+        Mat img_mat_prova = new Mat();
+        Utils.bitmapToMat(prova, img_mat_prova);
+
+        Mat diff_im = new Mat();
+        Utils.bitmapToMat(prova, diff_im);
+        Core.subtract(img_mat_gabarito,img_mat_prova,diff_im);
+
+        correcao = prova;
+
+        Utils.matToBitmap(diff_im, correcao);
+
+        img_view_correcao.setImageBitmap(correcao);
+
+    }
+
+    public void align_images(){
+
+    }
+
+    public void corrigir(View view) {
+        subtract_imgs();
+    }
 }
